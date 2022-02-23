@@ -3,12 +3,11 @@ from settings import TOKEN
 
 bot = telebot.TeleBot(TOKEN)
 
+@bot.message_handler(content_types=['start'])
+def start(m, res=False):
+    bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь )')
+@bot.message_handler(content_types=["text"])
+def handle_text(message):
+    bot.send_message(message.chat.id, 'Вы написали: ' + message.text)
 
-@bot.message_handler(content_types=['text'])
-def get_text_messages(message):
-    username = message.from_user.username
-    msg = f'Кто здесь? {username}'
-    bot.send_message(message.from_user.id, msg)
-
-
-bot.polling()
+bot.polling(none_stop=True, interval=0)
